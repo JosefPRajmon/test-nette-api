@@ -1,0 +1,3 @@
+ application:
+   mapping:
+     Api: Tomaj\NetteApi\Presenters\*Presenter

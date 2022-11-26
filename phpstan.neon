@@ -1,0 +1,25 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+
+parameters:
+	level: 6
+
+	scanDirectories:
+		- app
+
+	excludes_analyse:
+		- www/adminer
+		- www/checker
+
+application:
+  mapping:
+    Api: Tomaj\NetteApi\Presenters\*Presenter
+
+services:
+  - Tomaj\NetteApi\Link\ApiLink
+  - Tomaj\NetteApi\Misc\IpDetector
+  apiDecider:
+    factory: Tomaj\NetteApi\ApiDecider
+    setup:
+      - addApi(\Tomaj\NetteApi\EndpointIdentifier('GET', 1, 'users'), \App\MyApi\v1\Handlers\UsersListingHandler(), \Tomaj\NetteApi\Authorization\NoAuthorization())
+      - addApi(\Tomaj\NetteApi\EndpointIdentifier('POST', 1, 'users', 'send-email'), \App\MyApi\v1\Handlers\SendEmailHandler(), \Tomaj\NetteApi\Authorization\BearerTokenAuthorization())
